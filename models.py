@@ -1,3 +1,4 @@
+"""Modules for game"""
 import random
 
 from exceptions import EnemyDown, GameOver
@@ -5,36 +6,50 @@ from settings import PLAYERS_LIVES, START_PLAYERS_SCORE
 
 
 def validator(massage=''):
+    """Validator function"""
     while True:
-        print(f"1 - wizard\n2 - knight\n3 - badman\n{'*'*50}\nIf you want to end the game and exit press 'exit'\n{'*'*50}")
+        print(
+            "1 - wizard",
+            "2 - knight",
+            "3 - badman",
+            '*'*50,
+            "If you want to end the game and exit press 'exit'",
+            '*'*50,
+            sep="\n"
+        )
         option = input(massage)
         if option in ('1', '2', '3'):
             return int(option)
-        elif option == 'exit':
+        if option == 'exit':
             raise KeyboardInterrupt
         print('try again stooped man')
 
 
-class Enemy(object):
+class Enemy:
+    """Enemy class"""
     def __init__(self, level):
         self.level = level
         self.lives = self.level
 
     @staticmethod
     def select_attack():
+        """Method returns random int from 1 to 3"""
         return random.randint(1, 3)
 
     def decrease_lives(self):
+        """Method decreases enemy lives counter. Raises EnemyDown exception if lives is 0"""
         self.lives -= 1
         if self.lives <= 0:
             print(f"{'🖤' * self.level}\nCongratulations you kill enemies!")
             raise EnemyDown
 
     def print_heart(self):
+        """Pretty print for Enemy live level"""
         return f"Enemy - {self.level}:\n{'💙' * self.lives}{'💔' * (self.level - self.lives)}"
 
 
-class Player(object):
+class Player:
+    """Player class"""
     def __init__(self, name):
         self.name = name
         self.lives = PLAYERS_LIVES
@@ -42,14 +57,19 @@ class Player(object):
 
     @staticmethod
     def fight(attack, defence):
-        if (attack == 1 and defence == 2) or (attack == 2 and defence == 3) or (attack == 3 and defence == 1):
+        """Method returns -1, 0 or 1 based on game rules"""
+        if any(
+            [attack == 1 and defence == 2,
+             attack == 2 and defence == 3,
+             attack == 3 and defence == 1]
+        ):
             return 1
-        elif attack == defence:
+        if attack == defence:
             return 0
-        else:
-            return -1
+        return -1
 
     def decrease_lives(self):
+        """Method decreases Player lives counter. Raises GameOver exception if lives is 0"""
         self.lives -= 1
         if self.lives <= 0:
             print(self.print_heart())
@@ -59,6 +79,7 @@ class Player(object):
             raise exception
 
     def attack(self, enemy_obj):
+        """Method for attack game phase"""
         print(self.print_heart())
         print(enemy_obj.print_heart())
         attack = validator("Choose your attack: ")
@@ -74,6 +95,7 @@ class Player(object):
             print('You missed!')
 
     def defence(self, enemy_obj):
+        """Method for defence game phase"""
         print(self.print_heart())
         print(enemy_obj.print_heart())
         defence = validator("Choose defence: ")
@@ -88,4 +110,6 @@ class Player(object):
             print('Enemy missed!')
 
     def print_heart(self):
-        return f"{self.name} (score - {self.score}):\n{'💙' * self.lives}{'💔' * (PLAYERS_LIVES - self.lives)}"
+        """Pretty print for Player live level"""
+        return f"{self.name} (score - {self.score}):\n"\
+               "{'💙' * self.lives}{'💔' * (PLAYERS_LIVES - self.lives)}"
