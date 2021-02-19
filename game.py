@@ -20,12 +20,15 @@ def play():
                     enemy = Enemy(level)
                     player.score += 5
         elif option == SHOW_SCORES:
-            pass
+            with open('scores.txt', 'r') as score:
+                print(score.read())
         elif option == EXIT:
             raise KeyboardInterrupt
         elif option == HELP:
             print('Option list:')
             print("\n".join(OPTIONS))
+        else:
+            print('You mist. Type "help" if you need help')
 
 
 if __name__ == '__main__':

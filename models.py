@@ -4,6 +4,17 @@ from exceptions import EnemyDown, GameOver
 from settings import PLAYERS_LIVES, START_PLAYERS_SCORE
 
 
+def validator(massage=''):
+    while True:
+        print("1 - wizard\n2 - knight\n3 - badman")
+        option = input(massage)
+        if option in ('1', '2', '3'):
+            return int(option)
+        elif option == 'exit':
+            raise KeyboardInterrupt
+        print('try again stooped man')
+
+
 class Enemy(object):
     def __init__(self, level):
         self.level = level
@@ -39,11 +50,11 @@ class Player(object):
         if self.lives <= 0:
             exception = GameOver("Game Over!")
             exception.score = self.score
+            exception.name = self.name
             raise exception
 
     def attack(self, enemy_obj):
-        print("1 - wizard\n2 - knight\n3 - badman")
-        attack = int(input("Choose your attack: "))
+        attack = validator("Choose your attack: ")
         defence = enemy_obj.select_attack()
         result = self.fight(attack, defence)
         if result == 0:
@@ -55,8 +66,7 @@ class Player(object):
             print('You missed!')
 
     def defence(self, enemy_obj):
-        print("1 - wizard\n2 - knight\n3 - badman")
-        defence = int(input("Choose defence: "))
+        defence = validator("Choose defence: ")
         attack = enemy_obj.select_attack()
         result = self.fight(attack, defence)
         if result == 0:
