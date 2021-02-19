@@ -112,4 +112,4 @@ class Player:
     def print_heart(self):
         """Pretty print for Player live level"""
         return f"{self.name} (score - {self.score}):\n"\
-               "{'💙' * self.lives}{'💔' * (PLAYERS_LIVES - self.lives)}"
+               f"{'💙' * self.lives}{'💔' * (PLAYERS_LIVES - self.lives)}"
