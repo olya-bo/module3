@@ -48,12 +48,14 @@ class Player(object):
     def decrease_lives(self):
         self.lives -= 1
         if self.lives <= 0:
+            print(self.print_heart(self.lives))
             exception = GameOver("Game Over!")
             exception.score = self.score
             exception.name = self.name
             raise exception
 
     def attack(self, enemy_obj):
+        print(self.print_heart(self.lives))
         attack = validator("Choose your attack: ")
         defence = enemy_obj.select_attack()
         result = self.fight(attack, defence)
@@ -66,6 +68,7 @@ class Player(object):
             print('You missed!')
 
     def defence(self, enemy_obj):
+        print(self.print_heart(self.lives))
         defence = validator("Choose defence: ")
         attack = enemy_obj.select_attack()
         result = self.fight(attack, defence)
@@ -76,3 +79,6 @@ class Player(object):
             self.decrease_lives()
         else:
             print('Enemy missed!')
+
+    def print_heart(self, lives):
+        return '💙' * self.lives + '💔' * (PLAYERS_LIVES - self.lives)
