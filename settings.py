@@ -1,3 +1,5 @@
+"""Settings file with const for game"""
+
 PLAYERS_LIVES = 5
 START_PLAYERS_SCORE = 0
 

@@ -1,9 +1,11 @@
+"""Main game file"""
 from exceptions import GameOver, EnemyDown
 from models import Enemy, Player
 from settings import OPTIONS, START, SHOW_SCORES, EXIT, HELP
 
 
 def play():
+    """Main game function. Runs game"""
     name = input('Enter your name: ')
     while True:
         option = input('Enter start if you are not a loser: ')
@@ -34,10 +36,10 @@ def play():
 if __name__ == '__main__':
     try:
         play()
-    except GameOver as e:
-        print(e)
-        print(f"You loose! Your score is {e.score}.")
-        e.write_score()
+    except GameOver as exception:
+        print(exception)
+        print(f"You loose! Your score is {exception.score}.")
+        exception.write_score()
     except KeyboardInterrupt:
         pass
     finally:
